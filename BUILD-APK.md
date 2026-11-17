@@ -9,13 +9,13 @@ The CI build also downloads NASA's large Blue Marble / Black Marble images and b
 "Ultra HD" textures into the APK (see `tools/fetch_hd_textures.py`).
 
 ## Option B — build locally
-Requirements: JDK 17, Android SDK (platform 35, build-tools 35), internet access for Gradle.
+Requirements: JDK 17, Android SDK (platform 36, build-tools 36), internet access for Gradle.
 ```bash
 python3 tools/fetch_hd_textures.py        # optional: 8K Ultra HD textures (needs internet)
 ./gradlew testDebugUnitTest                # unit tests
 ./gradlew assembleDebug                    # → app/build/outputs/apk/debug/app-debug.apk
 ```
-Package name: `com.earthx.explorer` · minSdk 26 (Android 8.0) · targetSdk 35.
+Package name: `com.earthx.explorer` · minSdk 26 (Android 8.0) · targetSdk 36.
 
 ### Release APK
 Create `keystore.properties` in the project root (never commit it):
