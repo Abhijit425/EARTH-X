@@ -87,8 +87,8 @@ void main() {
 
   // ocean sun glint
   vec3 H = normalize(L + V);
-  float spec = pow(max(dot(Nb, H), 0.0), mix(18.0, 140.0, water)) * water * (1.0 - rough * 0.6);
-  col += vec3(1.0, 0.92, 0.78) * spec * 0.9 * dayF * shadow;
+  float spec = pow(max(dot(Nb, H), 0.0), mix(30.0, 220.0, water)) * water * (1.0 - rough * 0.6);
+  col += vec3(1.0, 0.92, 0.78) * spec * 0.45 * dayF * shadow;
 
   // twilight warmth near terminator
   float tw = exp(-pow(NdL * 9.0, 2.0));
