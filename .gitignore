@@ -1,0 +1,16 @@
+.gradle/
+build/
+app/build/
+local.properties
+keystore.properties
+*.keystore
+*.jks
+.idea/
+*.iml
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+# Ultra-HD textures are fetched at build time by CI (tools/fetch_hd_textures.py)
+app/src/main/assets/web/textures/*_8k.jpg
+output/

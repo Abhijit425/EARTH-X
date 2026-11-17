@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- glow ring -->
+    <path android:fillColor="#335CE1FF"
+        android:pathData="M54,22a32,32 0,1 1,0 64a32,32 0,1 1,0 -64z" />
+    <!-- planet -->
+    <path android:fillColor="#FF1565C0"
+        android:pathData="M54,26a28,28 0,1 1,0 56a28,28 0,1 1,0 -56z" />
+    <!-- continents (stylised) -->
+    <path android:fillColor="#FF4CAF50"
+        android:pathData="M40,38c6,-4 14,-3 16,2c1,4 -4,6 -2,10c2,4 8,3 9,8c1,6 -6,10 -11,8c-5,-2 -3,-8 -8,-11c-4,-3 -10,-1 -10,-6c0,-4 3,-8 6,-11z" />
+    <path android:fillColor="#FF66BB6A"
+        android:pathData="M62,60c4,-1 9,1 10,5c1,4 -3,9 -7,10c-3,1 -6,-2 -6,-6c0,-3 0,-8 3,-9z" />
+    <!-- terminator shadow -->
+    <path android:fillColor="#88000010"
+        android:pathData="M68,30a28,28 0,0 1,0 48a34,34 0,0 0,0 -48z" />
+    <!-- X orbit -->
+    <path android:strokeColor="#FF5CE1FF" android:strokeWidth="3" android:strokeLineCap="round"
+        android:pathData="M24,30L84,78M84,30L24,78" android:fillColor="#00000000"/>
+</vector>

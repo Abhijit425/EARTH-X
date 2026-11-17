@@ -1,0 +1,67 @@
+{
+  "_sources": {
+    "earth": "NASA NSSDCA Earth Fact Sheet (https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html); IAU 2012 astronomical unit definition",
+    "peaks": "Summit elevations as commonly published (Everest: 2020 China–Nepal joint survey). Values rounded to metres.",
+    "trenches": "Approximate maximum depths from published bathymetric surveys; individual surveys differ by tens of metres."
+  },
+  "earth": [
+    {"k": "Mean radius", "v": "6,371.0 km"},
+    {"k": "Equatorial radius", "v": "6,378.137 km"},
+    {"k": "Polar radius", "v": "6,356.752 km"},
+    {"k": "Equatorial circumference", "v": "40,075 km"},
+    {"k": "Meridional circumference", "v": "40,008 km"},
+    {"k": "Axial tilt (obliquity)", "v": "23.44°"},
+    {"k": "Sidereal rotation period", "v": "23 h 56 m 4.1 s"},
+    {"k": "Mean solar day", "v": "24 h"},
+    {"k": "Sidereal orbital period", "v": "365.256 days"},
+    {"k": "Mean distance from Sun", "v": "149.6 million km (1 AU = 149,597,870.7 km)"},
+    {"k": "Perihelion / Aphelion", "v": "147.1 / 152.1 million km"},
+    {"k": "Mass", "v": "5.972 × 10²⁴ kg"},
+    {"k": "Mean density", "v": "5.513 g/cm³"},
+    {"k": "Surface gravity", "v": "9.80 m/s²"},
+    {"k": "Surface area", "v": "510.1 million km² (≈71% water)"}
+  ],
+  "peaks": [
+    {"n": "Mount Everest", "lat": 27.9881, "lon": 86.9250, "elev": 8849, "range": "Himalayas"},
+    {"n": "K2", "lat": 35.8825, "lon": 76.5133, "elev": 8611, "range": "Karakoram"},
+    {"n": "Kangchenjunga", "lat": 27.7025, "lon": 88.1475, "elev": 8586, "range": "Himalayas"},
+    {"n": "Aconcagua", "lat": -32.6532, "lon": -70.0109, "elev": 6961, "range": "Andes"},
+    {"n": "Denali", "lat": 63.0692, "lon": -151.0070, "elev": 6190, "range": "Alaska Range"},
+    {"n": "Mount Kilimanjaro", "lat": -3.0674, "lon": 37.3556, "elev": 5895, "range": "Eastern Arc / volcanic"},
+    {"n": "Mount Elbrus", "lat": 43.3499, "lon": 42.4453, "elev": 5642, "range": "Caucasus"},
+    {"n": "Vinson Massif", "lat": -78.5254, "lon": -85.6171, "elev": 4892, "range": "Ellsworth Mountains"},
+    {"n": "Puncak Jaya", "lat": -4.0833, "lon": 137.1833, "elev": 4884, "range": "Sudirman Range"},
+    {"n": "Mont Blanc", "lat": 45.8326, "lon": 6.8652, "elev": 4806, "range": "Alps"},
+    {"n": "Mount Whitney", "lat": 36.5785, "lon": -118.2923, "elev": 4421, "range": "Sierra Nevada"},
+    {"n": "Mauna Kea", "lat": 19.8207, "lon": -155.4681, "elev": 4207, "range": "Hawaiian volcanoes (≈10,200 m base to summit)"},
+    {"n": "Mount Kosciuszko", "lat": -36.4559, "lon": 148.2636, "elev": 2228, "range": "Australian Alps"}
+  ],
+  "trenches": [
+    {"n": "Mariana Trench (Challenger Deep)", "lat": 11.35, "lon": 142.20, "depth": 10935, "ocean": "Pacific"},
+    {"n": "Tonga Trench (Horizon Deep)", "lat": -23.26, "lon": -174.73, "depth": 10800, "ocean": "Pacific"},
+    {"n": "Philippine Trench (Emden Deep)", "lat": 10.40, "lon": 126.67, "depth": 10540, "ocean": "Pacific"},
+    {"n": "Kuril–Kamchatka Trench", "lat": 44.15, "lon": 150.57, "depth": 9600, "ocean": "Pacific"},
+    {"n": "Kermadec Trench", "lat": -31.88, "lon": -177.37, "depth": 10047, "ocean": "Pacific"},
+    {"n": "Puerto Rico Trench (Milwaukee Deep)", "lat": 19.77, "lon": -66.92, "depth": 8376, "ocean": "Atlantic"},
+    {"n": "South Sandwich Trench", "lat": -60.00, "lon": -25.00, "depth": 8265, "ocean": "Southern"},
+    {"n": "Peru–Chile (Atacama) Trench", "lat": -23.36, "lon": -71.34, "depth": 8065, "ocean": "Pacific"},
+    {"n": "Aleutian Trench", "lat": 51.0, "lon": -175.0, "depth": 7679, "ocean": "Pacific"},
+    {"n": "Java (Sunda) Trench", "lat": -10.32, "lon": 109.97, "depth": 7290, "ocean": "Indian"}
+  ],
+  "continents": [
+    {"n": "Asia", "lat": 45, "lon": 90, "area": "≈44.6 million km²", "fact": "Largest and most populous continent; home to the Himalayas and the Tibetan Plateau, the 'Roof of the World'."},
+    {"n": "Africa", "lat": 5, "lon": 20, "area": "≈30.4 million km²", "fact": "Straddles the equator; the East African Rift is a divergent plate boundary splitting the continent."},
+    {"n": "North America", "lat": 45, "lon": -100, "area": "≈24.7 million km²", "fact": "The Rocky Mountains and Appalachians frame the interior plains."},
+    {"n": "South America", "lat": -15, "lon": -60, "area": "≈17.8 million km²", "fact": "The Andes, the longest continental mountain range, run along its western edge above a subduction zone."},
+    {"n": "Antarctica", "lat": -82, "lon": 0, "area": "≈14.2 million km²", "fact": "Holds about 90% of the world's ice; its average elevation is the highest of any continent."},
+    {"n": "Europe", "lat": 50, "lon": 15, "area": "≈10.2 million km²", "fact": "The Alps were raised by the collision of the African and Eurasian plates."},
+    {"n": "Australia & Oceania", "lat": -25, "lon": 135, "area": "≈8.5 million km²", "fact": "Australia is the flattest and driest inhabited continent."}
+  ],
+  "topics": [
+    {"id": "plates", "t": "Tectonic plates", "d": "Earth's lithosphere is broken into about 15 major plates. Their boundaries (shown from the PB2002 model) host most earthquakes and volcanoes. Turn on the Plates layer and the Earthquakes layer together to see the pattern."},
+    {"id": "trenches", "t": "Ocean trenches", "d": "Trenches form where one plate subducts beneath another. The deepest, the Mariana Trench, reaches roughly 11 km below sea level."},
+    {"id": "mountains", "t": "Mountain systems", "d": "Major ranges mark collisions (Himalayas, Alps) or subduction (Andes, Rockies). Turn on Mountain highlighting to outline them from Natural Earth data."},
+    {"id": "continents", "t": "Continents", "d": "Seven continents by the common convention. Tap one to fly there."},
+    {"id": "daynight", "t": "Day, night and seasons", "d": "The 23.44° axial tilt makes the terminator sweep between the polar circles over a year. Use the Time panel to fast-forward through a solstice."}
+  ]
+}

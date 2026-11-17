@@ -1,0 +1,100 @@
+name: Build EARTH-X APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Fetch NASA Ultra-HD (8K) textures
+        continue-on-error: true
+        run: |
+          pip install --quiet pillow
+          python3 tools/fetch_hd_textures.py app/src/main/assets/web/textures 2>&1 | tee hd-textures.log
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Unit tests
+        id: tests
+        continue-on-error: true
+        run: ./gradlew --no-daemon testDebugUnitTest --stacktrace 2>&1 | tee unit-tests.log; exit ${PIPESTATUS[0]}
+
+      - name: Build debug APK
+        id: build
+        run: ./gradlew --no-daemon assembleDebug --stacktrace --warning-mode all 2>&1 | tee build.log; exit ${PIPESTATUS[0]}
+
+      - name: Build signed release APK (only when signing secrets exist)
+        if: env.KEYSTORE_B64 != ''
+        continue-on-error: true
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > release.keystore
+          printf "storeFile=release.keystore\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n" "${{ secrets.KEYSTORE_PASSWORD }}" "${{ secrets.KEY_ALIAS }}" "${{ secrets.KEY_PASSWORD }}" > keystore.properties
+          ./gradlew --no-daemon assembleRelease 2>&1 | tee release.log
+
+      - name: Collect & verify APK
+        if: always()
+        run: |
+          mkdir -p output
+          cp hd-textures.log unit-tests.log build.log output/ 2>/dev/null || true
+          if [ -f app/build/outputs/apk/debug/app-debug.apk ]; then
+            cp app/build/outputs/apk/debug/app-debug.apk output/EARTH-X-debug.apk
+            AAPT=$(ls -d $ANDROID_HOME/build-tools/*/ | sort -V | tail -1)aapt
+            $AAPT dump badging output/EARTH-X-debug.apk | head -5 > output/apk-info.txt || true
+            ls -la output/EARTH-X-debug.apk >> output/apk-info.txt
+            sha256sum output/EARTH-X-debug.apk >> output/apk-info.txt
+            cat output/apk-info.txt
+          fi
+          [ -f app/build/outputs/apk/release/app-release.apk ] && cp app/build/outputs/apk/release/app-release.apk output/EARTH-X-release.apk || true
+          ls -R app/build/test-results 2>/dev/null | head -50 > output/test-results.txt || true
+          find app/build/test-results -name "*.xml" -exec cat {} + 2>/dev/null | grep -E "<testsuite |<failure" | head -60 >> output/test-results.txt || true
+
+      - name: Publish to 'apk' branch (APK + logs)
+        if: always()
+        run: |
+          cd output
+          git init -q
+          git config user.name "earthx-ci"; git config user.email "ci@earthx.local"
+          git checkout -q -b apk
+          git add -A
+          git commit -q -m "EARTH-X build ${GITHUB_SHA::7} (${{ job.status }})"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" apk
+
+      - name: Publish GitHub release
+        if: success()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: EARTH-X latest build
+          prerelease: false
+          make_latest: true
+          files: |
+            output/EARTH-X-debug.apk
+            output/EARTH-X-release.apk
+          fail_on_unmatched_files: false
+          body: |
+            Debug APK for Android tablets (Android 8.0+). Download `EARTH-X-debug.apk` on your tablet and install
+            (allow "Install unknown apps" for your browser/file manager when prompted). Built from ${{ github.sha }}.
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: EARTH-X-output
+          path: output/

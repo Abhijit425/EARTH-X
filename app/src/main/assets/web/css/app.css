@@ -1,0 +1,4 @@
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000003; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+#globe { position: absolute; inset: 0; }
+#globe canvas { display: block; touch-action: none; }
+#labels { position: absolute; left: 0; top: 0; pointer-events: none; }
