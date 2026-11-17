@@ -32,6 +32,7 @@ jobs:
 
       - name: Fetch NASA Ultra-HD (8K) textures
         continue-on-error: true
+        timeout-minutes: 20
         run: |
           pip install --quiet pillow
           python3 tools/fetch_hd_textures.py app/src/main/assets/web/textures 2>&1 | tee hd-textures.log

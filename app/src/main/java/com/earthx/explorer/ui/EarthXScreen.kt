@@ -136,7 +136,9 @@ fun EarthXScreen(vm: EarthViewModel) {
     LaunchedEffect(Unit) { vm.messages.collect { snackbar.showSnackbar(it) } }
 
     BoxWithConstraints(Modifier.fillMaxSize().background(EX.Space)) {
-        val wide = maxWidth >= 840.dp && maxWidth > maxHeight
+        val boxW = maxWidth
+        val boxH = maxHeight
+        val wide = boxW >= 840.dp && boxW > boxH
         val panelVisible = ui.chromeVisible && ui.panelOpen
         Row(Modifier.fillMaxSize()) {
             AnimatedVisibility(ui.chromeVisible, enter = expandHorizontally() + fadeIn(), exit = shrinkHorizontally() + fadeOut()) {
@@ -154,14 +156,14 @@ fun EarthXScreen(vm: EarthViewModel) {
                 }
                 if (!wide) {
                     AnimatedVisibility(panelVisible, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
-                        GlassPanel(Modifier.fillMaxWidth().height(maxHeight * 0.46f).padding(8.dp)) { PanelHost(vm, ui) }
+                        GlassPanel(Modifier.fillMaxWidth().height(boxH * 0.46f).padding(8.dp)) { PanelHost(vm, ui) }
                     }
                 }
             }
             if (wide) {
                 AnimatedVisibility(panelVisible, enter = expandHorizontally(expandFrom = Alignment.Start) + fadeIn(), exit = shrinkHorizontally() + fadeOut()) {
                     GlassPanel(
-                        Modifier.width(if (maxWidth > 1300.dp) 420.dp else 380.dp).fillMaxHeight()
+                        Modifier.width(if (boxW > 1300.dp) 420.dp else 380.dp).fillMaxHeight()
                             .windowInsetsPadding(WindowInsets.safeDrawing).padding(top = 10.dp, end = 10.dp, bottom = 10.dp)
                     ) { PanelHost(vm, ui) }
                 }
