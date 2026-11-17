@@ -32,7 +32,14 @@ window.addEventListener('unhandledrejection', e => emit('error', { msg: String(e
 // ------------------------------------------------------------------ renderer
 const container = document.getElementById('globe');
 const labelCanvas = document.getElementById('labels');
-const renderer = new THREE.WebGLRenderer({ antialias: CFG.quality !== 'low', alpha: false, powerPreference: CFG.lowPower ? 'low-power' : 'high-performance', preserveDrawingBuffer: false });
+emit('progress', { stage: 'boot', pct: 5 });
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: CFG.quality !== 'low', alpha: false, powerPreference: CFG.lowPower ? 'low-power' : 'high-performance', preserveDrawingBuffer: false });
+} catch (e) {
+  emit('error', { msg: 'FATAL: WebGL 2 is not available in this device\'s WebView (' + (e && e.message || e) + '). Update "Android System WebView" / Chrome from the Play Store.' });
+  throw e;
+}
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
@@ -288,11 +295,14 @@ async function loadTextures() {
   emit('progress', { stage: 'textures', pct: 50 });
   if (q === 'low') { emit('ready', { maxTex, quality: q }); return; }
   // 3) HD layers
-  const use8k = q === 'ultra' && CFG.has8k && maxTex >= 8192;
+  // 8K needs ~170 MB of GPU memory for the day map alone: only on capable devices, night stays 4K.
+  const mem = navigator.deviceMemory || 4;
+  const use8k = q === 'ultra' && CFG.has8k && maxTex >= 8192 && mem >= 4;
   const [day, night, brc] = await Promise.all([
     loadTex(use8k ? 'textures/earth_day_8k.jpg' : 'textures/earth_day_4k.jpg'),
-    loadTex(use8k ? 'textures/earth_night_8k.jpg' : 'textures/earth_night_4k.jpg'),
+    loadTex('textures/earth_night_4k.jpg'),
     loadTex('textures/earth_brc_4k.jpg', false)]);
+  if (!day) emit('error', { msg: 'Could not load the Earth texture' + (use8k ? ' (8K)' : '') });
   if (day) { earthMat.uniforms.dayMap.value = day; if (quick) quick.dispose(); }
   if (night) earthMat.uniforms.nightMap.value = night;
   if (brc) { earthMat.uniforms.brcMap.value = brc; cloudMat.uniforms.brcMap.value = brc; }

@@ -44,7 +44,7 @@ fun GlobeView(
     val assetLoader = remember {
         WebViewAssetLoader.Builder()
             .setDomain(HOST)
-            .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
+            .addPathHandler("/assets/", MimeFixingHandler(WebViewAssetLoader.AssetsPathHandler(context)))
             .build()
     }
 
@@ -129,4 +129,23 @@ fun GlobeView(
             }
         },
     )
+}
+
+/** Guarantees correct Content-Type headers: ES-module scripts are refused unless served as JavaScript. */
+private class MimeFixingHandler(private val inner: WebViewAssetLoader.PathHandler) : WebViewAssetLoader.PathHandler {
+    override fun handle(path: String): WebResourceResponse? {
+        val r = inner.handle(path) ?: return null
+        val mime = when (path.substringAfterLast('.', "").lowercase()) {
+            "js", "mjs" -> "text/javascript"
+            "json" -> "application/json"
+            "css" -> "text/css"
+            "html" -> "text/html"
+            "jpg", "jpeg" -> "image/jpeg"
+            "png" -> "image/png"
+            else -> r.mimeType
+        }
+        r.mimeType = mime
+        if (mime.startsWith("text/") || mime == "application/json") r.encoding = "utf-8"
+        return r
+    }
 }

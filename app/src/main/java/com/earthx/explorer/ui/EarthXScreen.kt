@@ -152,7 +152,7 @@ fun EarthXScreen(vm: EarthViewModel) {
                         }
                     }
                     GlobeOverlays(vm, ui, wide)
-                    if (!ui.engineReady) LoadingVeil(ui.progress)
+                    if (!ui.engineReady || ui.engineError != null) LoadingVeil(ui.progress, ui.engineError, onRetry = { vm.restartEngine(false) }, onSafe = { vm.restartEngine(true) })
                 }
                 if (!wide) {
                     AnimatedVisibility(panelVisible, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
@@ -204,7 +204,7 @@ private fun SideRail(current: Section, highlight: Boolean, compact: Boolean, onS
 }
 
 @Composable
-private fun LoadingVeil(progress: Int) {
+private fun LoadingVeil(progress: Int, error: String?, onRetry: () -> Unit, onSafe: () -> Unit) {
     Box(Modifier.fillMaxSize().background(Color(0xCC02040A)), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text("EARTH-X", style = MaterialTheme.typography.displaySmall, color = EX.Text)
@@ -212,7 +212,15 @@ private fun LoadingVeil(progress: Int) {
             Spacer(Modifier.height(24.dp))
             LinearProgressIndicator(progress = { progress / 100f }, modifier = Modifier.width(220.dp), color = EX.Accent, trackColor = Color(0x22FFFFFF))
             Spacer(Modifier.height(8.dp))
-            Text("Loading Earth textures and geography…", style = MaterialTheme.typography.bodySmall, color = EX.TextDim)
+            if (error == null) Text("Loading Earth textures and geography…", style = MaterialTheme.typography.bodySmall, color = EX.TextDim)
+            else {
+                Text(error, style = MaterialTheme.typography.bodyMedium, color = EX.Amber, modifier = Modifier.widthIn(max = 460.dp).padding(horizontal = 24.dp))
+                Spacer(Modifier.height(14.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    androidx.compose.material3.OutlinedButton(onClick = onRetry) { Text("Retry") }
+                    androidx.compose.material3.Button(onClick = onSafe) { Text("Safe mode") }
+                }
+            }
         }
     }
 }

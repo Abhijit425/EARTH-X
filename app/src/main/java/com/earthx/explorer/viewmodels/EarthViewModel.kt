@@ -108,6 +108,8 @@ data class UiState(
     val fps: Int? = null,
     val countries: List<Country> = emptyList(),
     val geoReady: Boolean = false,
+    val engineError: String? = null,
+    val engineAlive: Boolean = false,
 )
 
 class EarthViewModel(app: Application) : AndroidViewModel(app) {
@@ -172,15 +174,49 @@ class EarthViewModel(app: Application) : AndroidViewModel(app) {
         _engineUrl.value = "https://appassets.androidplatform.net/assets/web/index.html" +
             "?quality=${q.key}&has8k=${if (has8k) 1 else 0}&lowPower=${if (s.lowPower) 1 else 0}" +
             "&online=${if (_ui.value.online) 1 else 0}&net=" + Uri.encode(net)
-        _ui.update { it.copy(engineReady = false, progress = 0) }
+        _ui.update { it.copy(engineReady = false, progress = 0, engineError = null, engineAlive = false) }
+        startWatchdog()
+    }
+
+    private var watchdog: Job? = null
+    private fun startWatchdog() {
+        watchdog?.cancel()
+        watchdog = viewModelScope.launch {
+            delay(25_000)
+            val s = _ui.value
+            if (!s.engineReady && s.engineError == null) {
+                _ui.update { it.copy(engineError = if (!it.engineAlive)
+                    "The 3D engine did not start. Your Android System WebView may be outdated or WebGL may be disabled."
+                else "The globe is taking too long to load (${it.progress}%). Try Safe mode.") }
+            }
+        }
+    }
+
+    /** Reload the engine; safe = drop to the lightest rendering mode. */
+    fun restartEngine(safe: Boolean) {
+        if (safe) updateSettings { it.copy(quality = RenderQuality.LOW, lowPower = true) }
+        else { _engineUrl.value?.let { rebuildEngineUrl(_ui.value.settings) }; _engineGen.value = _engineGen.value + 1 }
+    }
+
+    private var downgrades = 0
+    private fun downgradeAfterContextLoss() {
+        val cur = _ui.value.settings.quality
+        val next = when (cur) { RenderQuality.ULTRA -> RenderQuality.HIGH; RenderQuality.HIGH -> RenderQuality.LOW; RenderQuality.LOW -> null }
+        if (next != null && downgrades < 2) {
+            downgrades++
+            _messages.tryEmit("Graphics memory exhausted — switching to ${next.label}")
+            updateSettings { it.copy(quality = next) }
+        } else _messages.tryEmit("Graphics context lost — recovering…")
     }
 
     // ------------------------------------------------------------------ engine events
     private fun onEngineEvent(e: GlobeEvent) {
         controller.ensureReady()
+        if (!_ui.value.engineAlive) _ui.update { it.copy(engineAlive = true) }
         when (e) {
             GlobeEvent.Ready -> {
-                _ui.update { it.copy(engineReady = true, progress = 100) }
+                watchdog?.cancel()
+                _ui.update { it.copy(engineReady = true, progress = 100, engineError = null) }
             }
             GlobeEvent.DataReady -> pushAll()
             is GlobeEvent.Progress -> _ui.update { it.copy(progress = e.pct) }
@@ -202,11 +238,15 @@ class EarthViewModel(app: Application) : AndroidViewModel(app) {
                     .onFailure { _messages.emit("Screenshot failed: ${it.message}") }
             }
             is GlobeEvent.Fps -> _ui.update { it.copy(fps = e.fps) }
-            GlobeEvent.ContextLost -> _messages.tryEmit("Graphics context lost — recovering…")
+            GlobeEvent.ContextLost -> downgradeAfterContextLoss()
             GlobeEvent.ContextRestored -> pushAll()
             GlobeEvent.SpaceTapped -> {}
             GlobeEvent.Interact -> {}
-            is GlobeEvent.Error -> android.util.Log.w("EARTH-X", "engine: ${e.message}")
+            is GlobeEvent.Error -> {
+                android.util.Log.w("EARTH-X", "engine: ${e.message}")
+                if (e.message.startsWith("FATAL") || !_ui.value.engineReady) _ui.update { it.copy(engineError = e.message.removePrefix("FATAL: ")) }
+                else _messages.tryEmit("Engine: ${e.message.take(120)}")
+            }
         }
     }
 
@@ -215,6 +255,7 @@ class EarthViewModel(app: Application) : AndroidViewModel(app) {
     val engineGeneration: StateFlow<Int> = _engineGen.asStateFlow()
 
     fun onRenderProcessGone() {
+        downgradeAfterContextLoss()
         _messages.tryEmit("3D engine restarted")
         controller.detach()
         _ui.update { it.copy(engineReady = false, progress = 0) }

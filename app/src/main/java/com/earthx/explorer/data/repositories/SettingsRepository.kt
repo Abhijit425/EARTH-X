@@ -18,7 +18,7 @@ enum class RenderQuality(val key: String, val label: String, val description: St
 }
 
 data class AppSettings(
-    val quality: RenderQuality = RenderQuality.ULTRA,
+    val quality: RenderQuality = RenderQuality.HIGH,
     val lowPower: Boolean = false,
     val labels: Boolean = true,
     val borders: Boolean = true,
@@ -51,7 +51,7 @@ class SettingsRepository(private val context: Context) {
     val settings: Flow<AppSettings> = context.dataStore.data.map { p -> p.toSettings() }
 
     private fun Preferences.toSettings() = AppSettings(
-        quality = RenderQuality.entries.firstOrNull { it.key == this[K.quality] } ?: RenderQuality.ULTRA,
+        quality = RenderQuality.entries.firstOrNull { it.key == this[K.quality] } ?: RenderQuality.HIGH,
         lowPower = this[K.lowPower] ?: false,
         labels = this[K.labels] ?: true,
         borders = this[K.borders] ?: true,
