@@ -1,0 +1,14 @@
+Endpoint check Tue Nov 17 16:30:10 UTC 2026 — date=2026-11-16
+GIBS VIIRS_SNPP_CorrectedReflectance_TrueColor: 200 image/jpeg 668B
+GIBS VIIRS_NOAA20_CorrectedReflectance_TrueColor: 200 image/jpeg 20756B
+GIBS MODIS_Terra_CorrectedReflectance_TrueColor: 200 image/jpeg 19648B
+GIBS MODIS_Aqua_CorrectedReflectance_TrueColor: 200 image/jpeg 20185B
+GIBS BlueMarble_NextGeneration: 200 image/jpeg 12354B
+GIBS BlueMarble_ShadedRelief_Bathymetry: 200 image/jpeg 14393B
+GIBS VIIRS_Black_Marble: 200 image/png 334B
+Open-Meteo point: 200 1057B
+Open-Meteo multi: [{"latitude":0.035149384,"longitude":0.0,"generationtime_ms":0.03230571746826172,"utc_offset_seconds":0,"timezone":"GMT","timezone_abbreviation":"GMT","elevatio
+USGS all_hour: 200 3174B
+USGS all_day: 200 131188B
+USGS all_week: 200 1272361B
+USGS all_month: 200 6924960B

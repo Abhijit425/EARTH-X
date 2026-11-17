@@ -1,0 +1,16 @@
+app/build/test-results:
+testDebugUnitTest
+
+app/build/test-results/testDebugUnitTest:
+TEST-com.earthx.explorer.BridgeTest.xml
+TEST-com.earthx.explorer.GeoMathTest.xml
+TEST-com.earthx.explorer.ParsersTest.xml
+binary
+
+app/build/test-results/testDebugUnitTest/binary:
+output.bin
+output.bin.idx
+results.bin
+<testsuite name="com.earthx.explorer.ParsersTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-17T16:27:55" hostname="runnervmccnms" time="0.036">
+<testsuite name="com.earthx.explorer.BridgeTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-17T16:27:55" hostname="runnervmccnms" time="0.036">
+<testsuite name="com.earthx.explorer.GeoMathTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-11-17T16:27:55" hostname="runnervmccnms" time="0.054">

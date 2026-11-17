@@ -1,0 +1,28 @@
+GET https://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73909/world.topo.bathy.200412.3x21600x10800.jpg
+   failed: 28 curl: (28) Connection timed out after 20002 milliseconds
+curl: (28) Connection timed out after 20002 milliseconds
+curl: (28) Connection timed out after 20002 milliseconds
+
+GET https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=BlueMarble_ShadedRelief_Bathymetry&STYLES=&SRS=EPSG:4326&BBOX=-180,0,0,90&WIDTH=4096&HEIGHT=4096&FORMAT=image/jpeg
+   -> (4096, 4096)
+GET https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=BlueMarble_ShadedRelief_Bathymetry&STYLES=&SRS=EPSG:4326&BBOX=0,0,180,90&WIDTH=4096&HEIGHT=4096&FORMAT=image/jpeg
+   -> (4096, 4096)
+GET https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=BlueMarble_ShadedRelief_Bathymetry&STYLES=&SRS=EPSG:4326&BBOX=-180,-90,0,0&WIDTH=4096&HEIGHT=4096&FORMAT=image/jpeg
+   -> (4096, 4096)
+GET https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=BlueMarble_ShadedRelief_Bathymetry&STYLES=&SRS=EPSG:4326&BBOX=0,-90,180,0&WIDTH=4096&HEIGHT=4096&FORMAT=image/jpeg
+   -> (4096, 4096)
+GET https://eoimages.gsfc.nasa.gov/images/imagerecords/144000/144898/BlackMarble_2016_3km.jpg
+   failed: 28 curl: (28) Connection timed out after 20002 milliseconds
+curl: (28) Connection timed out after 20002 milliseconds
+curl: (28) Connection timed out after 20002 milliseconds
+
+GET https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=VIIRS_Black_Marble&STYLES=&SRS=EPSG:4326&BBOX=-180,0,0,90&WIDTH=4096&HEIGHT=4096&FORMAT=image/png
+   -> (4096, 4096)
+GET https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=VIIRS_Black_Marble&STYLES=&SRS=EPSG:4326&BBOX=0,0,180,90&WIDTH=4096&HEIGHT=4096&FORMAT=image/png
+   -> (4096, 4096)
+GET https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=VIIRS_Black_Marble&STYLES=&SRS=EPSG:4326&BBOX=-180,-90,0,0&WIDTH=4096&HEIGHT=4096&FORMAT=image/png
+   -> (4096, 4096)
+GET https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=VIIRS_Black_Marble&STYLES=&SRS=EPSG:4326&BBOX=0,-90,180,0&WIDTH=4096&HEIGHT=4096&FORMAT=image/png
+   -> (4096, 4096)
+wrote app/src/main/assets/web/textures/earth_day_8k.jpg (8192, 4096) 5064 KB
+wrote app/src/main/assets/web/textures/earth_night_8k.jpg (8192, 4096) 1737 KB
